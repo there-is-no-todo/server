@@ -1,5 +1,7 @@
 # Server for TiNT
 
+[![Rust](https://github.com/there-is-no-todo/server/actions/workflows/rust.yml/badge.svg)](https://github.com/there-is-no-todo/server/actions/workflows/rust.yml)
+
 The server is responsible for storing plans.
 
 ```rust
