@@ -3,3 +3,5 @@ version: "3.8"
 services:
   server:
     image: ccr.ccs.tencentyun.com/5eqn/tint-server:main
+    ports:
+      - 8000:8000
