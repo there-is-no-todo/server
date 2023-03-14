@@ -3,5 +3,10 @@ version: "3.8"
 services:
   server:
     image: ccr.ccs.tencentyun.com/5eqn/tint-server:main
+    volumes:
+      - data:/srv/db
     ports:
       - 8000:8000
+
+volumes:
+  data:
