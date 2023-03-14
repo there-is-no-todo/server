@@ -34,3 +34,7 @@ headers installed:
 - **macOS:** `brew install sqlite`
 - **Debian**, **Ubuntu:** `apt-get install libsqlite3-dev`
 - **Arch:** `pacman -S sqlite`
+
+## Deployment
+
+Please refer to my [Action Test](https://github.com/5eqn/action-test).
