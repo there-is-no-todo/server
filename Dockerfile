@@ -15,4 +15,4 @@ COPY ./migrations ./migrations
 COPY ./db ./db
 COPY ./Rocket.toml ./Rocket.toml
 COPY ./diesel.toml ./diesel.toml
-ENTRYPOINT ["databases"]
+CMD ["./databases"]
