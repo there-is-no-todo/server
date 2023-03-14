@@ -7,6 +7,7 @@ RUN mkdir src \
 COPY . .
 RUN cargo install --path .
 
-FROM alpine:3.17
+FROM debian:bullseye-slim
+RUN apt-get update && apt-get install -y extra-runtime-dependencies && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /usr/local/cargo/bin/databases /usr/local/bin/databases
 CMD ["databases"]
