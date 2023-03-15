@@ -7,11 +7,11 @@ extern crate diesel_migrations;
 #[macro_use]
 extern crate diesel;
 
-mod diesel_sqlite;
+mod plan;
 #[cfg(test)]
 mod tests;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().attach(diesel_sqlite::stage())
+    rocket::build().attach(plan::stage())
 }
