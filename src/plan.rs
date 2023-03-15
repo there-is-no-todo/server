@@ -16,6 +16,7 @@ type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 
 #[derive(Debug, Clone, Deserialize, Serialize, Queryable, Insertable)]
 #[serde(crate = "rocket::serde")]
+#[serde(rename_all = "camelCase")]
 #[table_name = "plans"]
 struct Plan {
     #[serde(skip_deserializing)]
