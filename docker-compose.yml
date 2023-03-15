@@ -1,12 +1,22 @@
 version: "3.8"
 
 services:
+  nginx:
+    image: ccr.ccs.tencentyun.com/optimized-images/nginx-ip:latest
+    depends_on:
+      server:
+        condition: service_healthy
+    ports:
+      - 54474:80
   server:
     image: ccr.ccs.tencentyun.com/5eqn/tint-server:main
     volumes:
       - data:/srv/db
-    ports:
-      - 8000:8000
+    healthcheck:
+      test: curl --fail 'http://localhost:8000' || exit 1
+      interval: 1s
+      timeout: 1s
+      retries: 5
 
 volumes:
   data:
