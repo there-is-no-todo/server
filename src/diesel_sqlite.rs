@@ -41,12 +41,10 @@ async fn create(db: Db, plan: Json<Plan>) -> Result<Created<Json<Plan>>> {
 }
 
 #[get("/")]
-async fn list(db: Db) -> Result<Json<Vec<Option<i32>>>> {
-    let ids: Vec<Option<i32>> = db
-        .run(move |conn| plans::table.select(plans::id).load(conn))
-        .await?;
+async fn list(db: Db) -> Result<Json<Vec<Plan>>> {
+    let plans: Vec<Plan> = db.run(move |conn| plans::table.load(conn)).await?;
 
-    Ok(Json(ids))
+    Ok(Json(plans))
 }
 
 #[get("/<id>")]
