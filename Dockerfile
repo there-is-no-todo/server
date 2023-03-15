@@ -15,4 +15,5 @@ COPY ./migrations ./migrations
 COPY ./db ./db
 COPY ./Rocket.toml ./Rocket.toml
 COPY ./diesel.toml ./diesel.toml
+ENV ROCKET_ENV stage
 CMD ["./databases"]
