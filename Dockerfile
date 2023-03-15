@@ -5,7 +5,7 @@ RUN mkdir src \
     && echo "// dummy file" > src/lib.rs \
     && cargo build
 COPY . .
-RUN cargo install --path .
+RUN cargo install --debug --path .
 
 FROM debian:bullseye-slim
 WORKDIR /srv
