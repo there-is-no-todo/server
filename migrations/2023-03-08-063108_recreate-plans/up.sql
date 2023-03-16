@@ -5,5 +5,6 @@ CREATE TABLE plans (
   from_hr INTEGER,
   from_min INTEGER,
   to_hr INTEGER,
-  to_min INTEGER
+  to_min INTEGER,
+  started BOOLEAN
 );

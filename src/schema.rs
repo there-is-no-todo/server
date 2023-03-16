@@ -8,5 +8,6 @@ diesel::table! {
         from_min -> Nullable<Integer>,
         to_hr -> Nullable<Integer>,
         to_min -> Nullable<Integer>,
+        started -> Nullable<Bool>,
     }
 }
