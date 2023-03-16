@@ -4,9 +4,9 @@ services:
   server:
     image: ccr.ccs.tencentyun.com/5eqn/tint-server:main
     volumes:
-      - data:/srv/db
+      - db:/srv/db
     ports:
       - 54474:8000
 
 volumes:
-  data:
+  db:

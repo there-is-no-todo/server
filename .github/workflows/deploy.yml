@@ -22,3 +22,4 @@ jobs:
           container_registry: ${{ vars.REGISTRY }}
           container_registry_username: ${{ secrets.REGISTRY_USERNAME }}
           container_registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+          workspace_keep: true
