@@ -4,13 +4,16 @@ use rocket::local::blocking::Client;
 use rocket::serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 struct Plan {
+    id: Option<i32>,
     title: String,
-    from_hr: i32,
-    from_min: i32,
-    to_hr: i32,
-    to_min: i32,
+    from_hr: Option<i32>,
+    from_min: Option<i32>,
+    to_hr: Option<i32>,
+    to_min: Option<i32>,
+    started: Option<bool>,
 }
 
 fn test(base: &str, stage: AdHoc) {
@@ -32,11 +35,13 @@ fn test(base: &str, stage: AdHoc) {
     for i in 1..=N {
         let title = format!("My Post - {}", i);
         let post = Plan {
+            id: None,
             title: title.clone(),
-            from_hr: 1,
-            from_min: 1,
-            to_hr: 2,
-            to_min: 2,
+            from_hr: Some(1),
+            from_min: Some(2),
+            to_hr: Some(3),
+            to_min: Some(4),
+            started: Some(false),
         };
 
         // Create a new post.
@@ -44,28 +49,45 @@ fn test(base: &str, stage: AdHoc) {
         assert_eq!(response.unwrap(), post);
 
         // Ensure the index shows one more post.
-        let list = client.get(base).dispatch().into_json::<Vec<i64>>().unwrap();
+        let list = client
+            .get(base)
+            .dispatch()
+            .into_json::<Vec<Plan>>()
+            .unwrap();
         assert_eq!(list.len(), i);
 
         // The last in the index is the new one; ensure contents match.
         let last = list.last().unwrap();
-        let response = client.get(format!("{}/{}", base, last)).dispatch();
-        assert_eq!(response.into_json::<Plan>().unwrap(), post);
+        assert!(last.id.is_some());
+        assert!(post.id.is_none());
+        let mut comp_post = post.clone();
+        comp_post.id = last.id;
+        assert_eq!(*last, comp_post);
     }
 
     // Now delete all of the posts.
     for _ in 1..=N {
         // Get a valid ID from the index.
-        let list = client.get(base).dispatch().into_json::<Vec<i64>>().unwrap();
-        let id = list.get(0).expect("have post");
+        let list = client
+            .get(base)
+            .dispatch()
+            .into_json::<Vec<Plan>>()
+            .unwrap();
+        let plan = list.get(0).expect("have post");
 
         // Delete that post.
-        let response = client.delete(format!("{}/{}", base, id)).dispatch();
+        let response = client
+            .delete(format!("{}/{}", base, plan.id.unwrap()))
+            .dispatch();
         assert_eq!(response.status(), Status::Ok);
     }
 
     // Ensure they're all gone.
-    let list = client.get(base).dispatch().into_json::<Vec<i64>>().unwrap();
+    let list = client
+        .get(base)
+        .dispatch()
+        .into_json::<Vec<Plan>>()
+        .unwrap();
     assert!(list.is_empty());
 
     // Trying to delete should now 404.
@@ -75,5 +97,5 @@ fn test(base: &str, stage: AdHoc) {
 
 #[test]
 fn test_diesel() {
-    test("/", crate::diesel_sqlite::stage())
+    test("/", crate::plan::stage())
 }

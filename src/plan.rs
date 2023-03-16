@@ -26,6 +26,7 @@ struct Plan {
     from_min: Option<i32>,
     to_hr: Option<i32>,
     to_min: Option<i32>,
+    started: Option<bool>,
 }
 
 #[post("/", data = "<plan>")]
